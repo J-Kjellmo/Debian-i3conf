@@ -118,15 +118,14 @@ echo "Changing default shell to Zsh..."
 sudo chsh -s "$(command -v zsh)" "$USER"
 
 echo "Oh My Zsh installation complete!"
-
 # Install Homebrew
 echo "Installing Homebrew..."
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Add Homebrew to PATH for the current session
+# Add Homebrew to PATH for the current session (for current user, not sudo)
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Persist Homebrew path for both Bash and Zsh
+# Persist Homebrew path for both Bash and Zsh (for current user, not sudo)
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' | tee -a ~/.bashrc ~/.profile ~/.zshrc
 
 # Install packages
