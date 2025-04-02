@@ -97,11 +97,15 @@ packages=(
     "zstd"
 )
 
+# Preconfigure package selections
+echo "Preconfiguring package selections..."
+echo "popularity-contest popularity-contest/participate boolean false" | sudo debconf-set-selections
+
 # Update and install essential packages
 echo "Updating package list and upgrading..."
 sudo apt update && sudo apt upgrade -y
 
-# Install packages from the list
+# Install packages
 echo "Installing packages..."
 for package in "${packages[@]}"; do
     echo "Installing $package..."
