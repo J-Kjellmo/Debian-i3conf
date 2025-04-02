@@ -105,12 +105,9 @@ echo "popularity-contest popularity-contest/participate boolean false" | sudo de
 echo "Updating package list and upgrading..."
 sudo apt update && sudo apt upgrade -y
 
-# Install packages
+# Install packages without stopping the script
 echo "Installing packages..."
-for package in "${packages[@]}"; do
-    echo "Installing $package..."
-    sudo apt install -y "$package"
-done
+DEBIAN_FRONTEND=readline sudo apt install -y "${packages[@]}"
 
 # Install Oh My Zsh
 echo "Installing Oh My Zsh..."
