@@ -119,17 +119,23 @@ sudo chsh -s "$(command -v zsh)" "$USER"
 
 echo "Oh My Zsh installation complete!"
 
-# Install Homebrew
+# Install Homebrew as the regular user
 echo "Installing Homebrew as the regular user..."
+
+# Ensure the user has ownership of the Homebrew directory
+sudo mkdir -p /home/linuxbrew/.linuxbrew
+sudo chown -R "$SUDO_USER":"$SUDO_USER" /home/linuxbrew/.linuxbrew
+
+# Run Homebrew installation as the regular user
 sudo -u "$SUDO_USER" NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Add Homebrew to Zsh profile
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /home/"$SUDO_USER"/.zshrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# Install packages with Homebrew
+# Install packages with Homebrew as the regular user
 echo "Installing GCC and Neovim with Homebrew..."
-sudo -u "$SUDO_USER" brew install gcc neovim gh
+sudo -u "$SUDO_USER" /home/linuxbrew/.linuxbrew/bin/brew install gcc neovim gh
 
 echo "Homebrew installation complete!"
 
