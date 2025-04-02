@@ -139,10 +139,8 @@ echo "Cloning dotfiles repository..."
 
 git clone https://github.com/J-Kjellmo/Debian-i3conf.git ~/dotfiles
 
-# Backup current configuration
-echo "Backing up existing config directory..."
-mkdir -p ~/.config_backup
-cp -r ~/.config/* ~/.config_backup/
+# create ~/.config/
+mkdir -p ~/.config
 
 # Move all folders from the "config" directory in your dotfiles repo to ~/.config/
 echo "Moving config files to ~/.config/"
