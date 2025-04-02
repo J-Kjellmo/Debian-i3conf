@@ -5,9 +5,9 @@ Add your current user to sudo after Debian install
 ```
 su
 ```
-Install sudo
+Install sudo (and curl)
 ```
-apt install sudo
+apt install sudo curl
 ```
 Add user to sudo group (Yes use sude commands while in `su`)
 ```
