@@ -1,5 +1,3 @@
-Acquire
-APT
 apt-listchanges
 bash-completion
 bind9-dnsutils
@@ -31,7 +29,6 @@ grub-efi-amd64
 i3
 inetutils-telnet
 initramfs-tools
-install
 installation-report
 intel-microcode
 keepass2
