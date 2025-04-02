@@ -77,7 +77,6 @@ packages=(
     "smbclient"
     "sudo"
     "sysstat"
-    "systemd-resolved"
     "systemd-timesyncd"
     "task-english"
     "task-laptop"
