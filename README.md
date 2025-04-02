@@ -3,8 +3,13 @@
 ## This is a command for command guide for what to do after Debian install
 Install essential packages
 ```
-sudo apt install build-essential procps curl file git firefox-esr
+sudo apt install build-essential procps curl file git firefox-esr zsh
 ```
+Install oh-my-zsh
+```
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
 Install Homebrew
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -28,7 +33,6 @@ brew install gh
 
 gh auth login
 ```
-
 
 Use this command to install the packages from the `installed_packages.txt`
 ```
