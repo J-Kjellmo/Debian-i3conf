@@ -108,35 +108,31 @@ sudo apt update && sudo apt upgrade -y
 echo "Installing packages..."
 DEBIAN_FRONTEND=readline sudo apt install -y "${packages[@]}"
 
-# Check if Oh My Zsh is already installed
-if [ -d "$HOME/.oh-my-zsh" ]; then
-    echo "Oh My Zsh is already installed. Skipping installation."
-else
-    echo "Installing Oh My Zsh..."
-    export RUNZSH=no  # Prevents the script from switching shells immediately
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
-    echo "Oh My Zsh installation complete!"
-fi
+# Install Oh My Zsh (user-level installation, not as root)
+echo "Installing Oh My Zsh..."
+export RUNZSH=no  # Prevents the script from switching shells immediately
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-# Set Zsh as default shell for the current user
-if [ "$SHELL" != "$(command -v zsh)" ]; then
-    echo "Changing default shell to Zsh..."
-    sudo chsh -s "$(command -v zsh)" "$USER"
-fi
+# Set Zsh as default shell for the current user (user-level)
+echo "Changing default shell to Zsh..."
+sudo chsh -s "$(command -v zsh)" "$USER"
 
-# Check if Homebrew is already installed
-if command -v brew &>/dev/null; then
-    echo "Homebrew is already installed. Skipping installation."
-else
-    echo "Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' | tee -a ~/.bashrc ~/.profile ~/.zshrc
-    echo "Homebrew installation complete!"
-fi
+echo "Oh My Zsh installation complete!"
 
-# Install packages via Homebrew
+# Install Homebrew for the current user (do not use sudo)
+echo "Installing Homebrew..."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Add Homebrew to PATH for the current user (not root)
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+# Persist Homebrew path for both Bash and Zsh for the current user
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' | tee -a ~/.bashrc ~/.profile ~/.zshrc
+
+# Install packages via Homebrew for the current user (no sudo)
 brew install gh neovim gcc
+
+echo "Homebrew installation complete!"
 
 echo "Enter your Git name (or press Enter to skip):"
 read GIT_NAME
@@ -148,7 +144,7 @@ if [ -n "$GIT_NAME" ] && [ -n "$GIT_EMAIL" ]; then
     git config --global user.name "$GIT_NAME"
     git config --global user.email "$GIT_EMAIL"
     echo "Git config set:"
-    git config --global --list | grep 'user\."
+    git config --global --list | grep 'user\.'
 else
     echo "Skipping Git global config."
 fi
@@ -165,6 +161,7 @@ fi
 
 # Clone your dotfiles repository (optional if you're using one)
 echo "Cloning dotfiles repository..."
+
 git clone https://github.com/J-Kjellmo/Debain-i3conf.git ~/dotfiles
 
 # Backup current configuration
