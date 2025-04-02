@@ -162,7 +162,7 @@ fi
 # Clone your dotfiles repository (optional if you're using one)
 echo "Cloning dotfiles repository..."
 
-git clone https://github.com/J-Kjellmo/Debain-i3conf.git ~/dotfiles
+git clone https://github.com/J-Kjellmo/Debian-i3conf.git ~/dotfiles
 
 # Backup current configuration
 echo "Backing up existing config directory..."
