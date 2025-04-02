@@ -134,8 +134,34 @@ brew install gh neovim gcc
 
 echo "Homebrew installation complete!"
 
+echo "Enter your Git name (or press Enter to skip):"
+read GIT_NAME
+
+echo "Enter your Git email (or press Enter to skip):"
+read GIT_EMAIL
+
+if [ -n "$GIT_NAME" ] && [ -n "$GIT_EMAIL" ]; then
+    git config --global user.name "$GIT_NAME"
+    git config --global user.email "$GIT_EMAIL"
+    echo "Git config set:"
+    git config --global --list | grep 'user\.'
+else
+    echo "Skipping Git global config."
+fi
+
+echo "Enter your GitHub Personal Access Token (or press Enter to skip):"
+read -s GITHUB_TOKEN
+
+if [ -n "$GITHUB_TOKEN" ]; then
+    echo "$GITHUB_TOKEN" | gh auth login --with-token
+    gh auth status
+else
+    echo "Skipping GitHub authentication."
+fi
+
 # Clone your dotfiles repository (optional if you're using one)
 echo "Cloning dotfiles repository..."
+
 git clone https://github.com/J-Kjellmo/Debain-i3conf.git ~/dotfiles
 
 # Backup current configuration
