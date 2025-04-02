@@ -120,8 +120,8 @@ sudo chsh -s "$(command -v zsh)" "$USER"
 echo "Oh My Zsh installation complete!"
 
 # Install Homebrew
-echo "Installing Homebrew..."
-NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo "Installing Homebrew as the regular user..."
+sudo -u "$SUDO_USER" NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Add Homebrew to Zsh profile
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zshrc
@@ -129,7 +129,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Install packages with Homebrew
 echo "Installing GCC and Neovim with Homebrew..."
-brew install gcc neovim gh
+sudo -u "$SUDO_USER" brew install gcc neovim gh
 
 echo "Homebrew installation complete!"
 
