@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+
+WIDTH=${WIDTH:-200}
+HEIGHT=${HEIGHT:-200}
+DATEFMT=${DATEFMT:-"+%a %d.%m.%Y %H:%M:%S"}
+SHORTFMT=${SHORTFMT:-"+%H:%M:%S"}
+
+OPTIND=1
+while getopts ":f:W:H:" opt; do
+    case $opt in
+        f) DATEFMT="$OPTARG" ;;
+        W) WIDTH="$OPTARG" ;;
+        H) HEIGHT="$OPTARG" ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+            ;;
+    esac
+done
+
+# Use BLOCK_INSTANCE for ADJUSTMENT (default to 0 if not set)
+ADJUSTMENT="${BLOCK_INSTANCE:-0}"
+
+case "$BLOCK_BUTTON" in
+  1|2|3)
+    # Get screen dimensions
+    SCREEN_WIDTH=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f 1)
+    SCREEN_HEIGHT=$(xdpyinfo | awk '/dimensions/{print $2}' | cut -d 'x' -f 2)
+
+    # Calculate the position for the upper-right corner
+    posX=$((SCREEN_WIDTH - WIDTH + ADJUSTMENT))
+    posY=5
+
+    # Launch the calendar popup
+    i3-msg -q "exec GTK_THEME=Adwaita:dark yad --calendar \
+        --width=$WIDTH --height=$HEIGHT \
+        --undecorated --fixed \
+        --close-on-unfocus --no-buttons \
+        --posx=$posX --posy=$posY \
+        > /dev/null"
+esac
+
+echo "$LABEL$(date "$DATEFMT")"
+echo "$LABEL$(date "$SHORTFMT")"
+

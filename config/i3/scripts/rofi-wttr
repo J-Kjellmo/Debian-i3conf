@@ -1,0 +1,65 @@
+! /usr/bin/env bash
+
+###### Variables ######
+LABEL="${LABEL:- }"
+LOCATION="${LOCATION:- }"
+FONT="${FONT:-Monospace 10}"
+ROFI_CONFIG_FILE="${ROFI_CONFIG_FILE:-~/.config/rofi/config.rasi}"  # Path to the selected theme file
+POPUP_X=${POPUP_X:-0}  # X offset (horizontal adjustment)
+POPUP_Y=${POPUP_Y:-0}  # Y offset (vertical adjustment)
+SCREEN_LOCATION=${SCREEN_LOCATION:-2}  # 2 = top-right
+
+###### Functions ######
+# print the full weather
+print_weather_report() {
+  if [[ $LOCATION != " " ]]; then
+    curl https://wttr.in/$LOCATION?T
+  else
+    curl https://wttr.in/?T
+  fi
+}
+
+# print the one line weather
+print_weather_line() {
+  if [[ $LOCATION != " " ]]; then
+    curl -s https://wttr.in/${LOCATION}?format="%C+%c+%t+(%f)+%w" | tr -d \"
+  else
+    curl -s 'https://wttr.in/?format="%C+%c+%t+(%f)+%w"' | tr -d \"
+  fi
+}
+
+###### Main body ######
+case "$BLOCK_BUTTON" in
+  1|2|3)
+      IFS=
+      weather_report=$(print_weather_report)
+
+      # Get screen width and height for top-right positioning
+      SCREEN_WIDTH=$(xwininfo -root | grep "Width" | awk '{print $2}')
+      SCREEN_HEIGHT=$(xwininfo -root | grep "Height" | awk '{print $2}')
+
+      # Calculate the width of the rofi window (adjust as needed)
+      ROFI_WIDTH=600  # THIS IS TO OFFSET THE ROFI POPUP HORIZONTALLY
+      ROFI_HEIGHT=260 # THIS IS TO OFFSET THE ROFI POPUP VERTICALLY
+
+      # Calculate x-offset to align the popup to the right
+      POPUP_X=$((SCREEN_WIDTH + ROFI_WIDTH))  # Align to the right edge
+      POPUP_Y=$((SCREEN_HEIGHT - ROFI_HEIGHT))  # Set the y-offset (distance from the top)
+
+      # Open rofi at the top-right corner with the selected theme and set a fixed height
+      echo "$weather_report" \
+        | rofi \
+            -dmenu \
+            -markup-rows \
+            -font "$FONT" \
+            -theme "$ROFI_CONFIG_FILE" \
+            -theme-str "window {height: 50em; x-offset: $POPUP_X; y-offset: $POPUP_Y;}"  # Apply offsets here
+            -p "Detailed weather report"
+esac
+
+# print blocklet text
+if [[ $LABEL != " " ]]; then
+  echo "$LABEL$(print_weather_line)"
+else
+  echo "$(print_weather_line)"
+fi
