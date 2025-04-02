@@ -108,12 +108,12 @@ sudo apt update && sudo apt upgrade -y
 echo "Installing packages..."
 DEBIAN_FRONTEND=readline sudo apt install -y "${packages[@]}"
 
-# Install Oh My Zsh
+# Install Oh My Zsh (user-level installation, not as root)
 echo "Installing Oh My Zsh..."
 export RUNZSH=no  # Prevents the script from switching shells immediately
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 
-# Set Zsh as default shell for the current user
+# Set Zsh as default shell for the current user (user-level)
 echo "Changing default shell to Zsh..."
 sudo chsh -s "$(command -v zsh)" "$USER"
 
@@ -129,7 +129,7 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 # Persist Homebrew path for both Bash and Zsh for the current user
 echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' | tee -a ~/.bashrc ~/.profile ~/.zshrc
 
-# Install packages via Homebrew for the current user
+# Install packages via Homebrew for the current user (no sudo)
 brew install gh neovim gcc
 
 echo "Homebrew installation complete!"
