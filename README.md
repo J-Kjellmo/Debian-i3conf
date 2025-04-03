@@ -9,7 +9,7 @@ Install sudo (and curl)
 ```
 apt install sudo curl
 ```
-Add user to sudo group (Yes use sude commands while in `su`)
+Add user to sudo group (Yes use sudo commands while in `su`)
 ```
 sudo usermod -aG sudo username
 ```
