@@ -90,6 +90,24 @@ brew install gh neovim gcc
 
 echo "Homebrew installation complete!"
 
+# JetBrains Nerd Font Installation
+echo "Installing JetBrains Nerd Font..."
+
+# Create the font directory if it doesn't exist
+mkdir -p /home/"$SUDO_USER"/.local/share/fonts
+
+# Download JetBrains Nerd Font (latest release from GitHub)
+curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.0/JetBrainsMono.zip -o /tmp/JetBrainsMono.zip
+
+# Unzip and install the font
+unzip /tmp/JetBrainsMono.zip -d /home/"$SUDO_USER"/.local/share/fonts
+
+# Clean up the downloaded zip
+rm /tmp/JetBrainsMono.zip
+
+# Update font cache
+fc-cache -fv
+
 # Clone your dotfiles repository (optional if you're using one)
 echo "Cloning dotfiles repository..."
 
@@ -106,5 +124,12 @@ for dir in ~/dotfiles/config/*; do
         cp -r "$dir" ~/.config/
     fi
 done
+
+# Install Jetbrains nerdfont
+wget -P ~/.local/share/fonts https://github.com/ryanoasis/nerd-fonts/releases/download/v3.0.2/JetBrainsMono.zip
+&& cd ~/.local/share/fonts
+unzip ~/.local/share/fonts/JetBrainsMono.zip
+&& rm JetBrainsMono.zip
+&& fc-cache -fv
 
 echo "Installation complete!"
