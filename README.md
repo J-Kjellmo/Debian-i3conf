@@ -24,3 +24,11 @@ Just curl to the install script...
 ```
 curl -sL https://raw.githubusercontent.com/J-Kjellmo/Debian-i3conf/main/install.sh | sudo bash
 ```
+
+## Apply the config
+
+Simply restart your machine
+```
+reboot now
+```
+No greeter is installed (That shit is too cringe) so you have to run `startx` when you log in
