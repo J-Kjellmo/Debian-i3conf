@@ -93,14 +93,17 @@ echo "Homebrew installation complete!"
 # JetBrains Nerd Font Installation
 echo "Installing JetBrains Nerd Font..."
 
+# Define the target home directory (use the current user's home)
+USER_HOME=$(eval echo ~$SUDO_USER)
+
 # Create the font directory if it doesn't exist
-mkdir -p /home/"$SUDO_USER"/.local/share/fonts
+mkdir -p "$USER_HOME/.local/share/fonts"
 
 # Download JetBrains Nerd Font (latest release from GitHub)
 curl -fsSL https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.0/JetBrainsMono.zip -o /tmp/JetBrainsMono.zip
 
 # Unzip and install the font
-unzip /tmp/JetBrainsMono.zip -d /home/"$SUDO_USER"/.local/share/fonts
+unzip /tmp/JetBrainsMono.zip -d "$USER_HOME/.local/share/fonts"
 
 # Clean up the downloaded zip
 rm /tmp/JetBrainsMono.zip
