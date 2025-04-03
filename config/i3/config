@@ -225,7 +225,7 @@ exec pulseaudio --start
 
 # Monitor setup
 # MAKE NEW xrandr COMMAND FOR YOUR SETUP
-exec_always xrandr --output eDP-1 --primary --mode 2560x1440 --rate 60 
+# exec_always xrandr --output eDP-1 --primary --mode 2560x1440 --rate 60 
 
 # flameshot shortcut
 bindsym $mod+Shift+s exec flameshot gui
