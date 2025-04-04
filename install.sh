@@ -26,6 +26,7 @@ packages=(
     "keepass2"
     "lxappearance"
     "materia-gtk-theme"
+    "network-manager"
     "nodejs"
     "npm"
     "openssh-client"
